@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   errorText: {
-    fontSize: 18,
+    fontSize: 19,
     color: 'red',
   },
 });
