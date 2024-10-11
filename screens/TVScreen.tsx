@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import { Picker } from '@react-native-picker/picker';
-import { View } from 'react-native';
+import { View, StyleSheet } from 'react-native';
+import DropDownPicker from 'react-native-dropdown-picker';
 import axios from 'axios';
 import TVList from '../components/TVList';
+import { useNavigation } from '@react-navigation/native';
 
 const API_KEY = '4222f27d45c859a068abd3f5b758d870';
 
@@ -14,6 +15,14 @@ interface TVShow {
 export default function TVScreen() {
   const [tvShows, setTVShows] = useState<TVShow[]>([]);
   const [category, setCategory] = useState('airing_today');
+  const [open, setOpen] = useState(false);
+  const [items, setItems] = useState([
+    { label: 'Airing Today', value: 'airing_today' },
+    { label: 'On the Air', value: 'on_the_air' },
+    { label: 'Popular', value: 'popular' },
+    { label: 'Top Rated', value: 'top_rated' },
+  ]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetchTVShows();
@@ -30,15 +39,45 @@ export default function TVScreen() {
     }
   };
 
+  useEffect(() => {
+    navigation.setOptions({
+      headerShown: false,
+    });
+  }, [navigation]);
+
   return (
-    <View>
-      <Picker selectedValue={category} onValueChange={(itemValue) => setCategory(itemValue)}>
-        <Picker.Item label="Airing Today" value="airing_today" />
-        <Picker.Item label="On the Air" value="on_the_air" />
-        <Picker.Item label="Popular" value="popular" />
-        <Picker.Item label="Top Rated" value="top_rated" />
-      </Picker>
+    <View style={styles.container}>
+      <DropDownPicker
+        open={open}
+        value={category}
+        items={items}
+        setOpen={setOpen}
+        setValue={setCategory}
+        setItems={setItems}
+        dropDownDirection="BOTTOM" 
+        style={styles.dropdown}
+        containerStyle={styles.dropdownContainer}  
+        placeholder="Select TV Show Category"
+      />
+
       <TVList tvShows={tvShows} />
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 10,
+    backgroundColor: '#f8f8f8',
+  },
+  dropdown: {
+    marginBottom: 20,
+    borderColor: '#dddddd',
+    borderWidth: 1,
+    borderRadius: 8,
+  },
+  dropdownContainer: {
+    zIndex: 1000, 
+  },
+});

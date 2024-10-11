@@ -24,7 +24,7 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
         value={query}
         onChangeText={setQuery}
       />
-      <Button title="Search" onPress={handleSearch} />
+      <Button title="" onPress={handleSearch} />
     </View>
   );
 }
