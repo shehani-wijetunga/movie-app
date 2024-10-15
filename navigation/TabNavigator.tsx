@@ -5,6 +5,8 @@ import MoviesScreen from '../screens/MoviesScreen';
 import TVScreen from '../screens/TVScreen';
 import SearchScreen from '../screens/SearchScreen';
 import ShowScreen from '../screens/ShowScreen';
+import Header from '../components/Header';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -12,8 +14,8 @@ const Stack = createNativeStackNavigator();
 function MoviesStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="MoviesScreen" component={MoviesScreen} />
-      <Stack.Screen name="ShowScreen" component={ShowScreen} />
+      <Stack.Screen name="MoviesScreen" component={MoviesScreen}  />
+      <Stack.Screen name="ShowScreen" component={ShowScreen}/>
     </Stack.Navigator>
   );
 }
@@ -21,7 +23,7 @@ function MoviesStack() {
 function TVStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="TVScreen" component={TVScreen} />
+      <Stack.Screen name="TVScreen" component={TVScreen}/>
       <Stack.Screen name="ShowScreen" component={ShowScreen} />
     </Stack.Navigator>
   );
@@ -29,17 +31,20 @@ function TVStack() {
 
 export default function TabNavigator() {
   return (
-<Tab.Navigator
+    <SafeAreaView style={{ flex: 1 }}>
+    <Header />  
+    <Tab.Navigator
       initialRouteName="Movies"
       screenOptions={{
         tabBarActiveTintColor: '#00bfff',
         tabBarInactiveTintColor: 'gray',
-        tabBarIndicatorStyle: { backgroundColor: '#00bfff' }, 
+        tabBarIndicatorStyle: { backgroundColor: '#00bfff' },
       }}
     >
-      <Tab.Screen name="Movies" component={MoviesStack}/>
+      <Tab.Screen name="Movies" component={MoviesStack} />
       <Tab.Screen name="Search" component={SearchScreen} />
-      <Tab.Screen name="TV Shows" component={TVStack} />  
+      <Tab.Screen name="TV Shows" component={TVStack} />
     </Tab.Navigator>
+  </SafeAreaView>
   );
 }
